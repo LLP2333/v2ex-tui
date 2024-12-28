@@ -44,9 +44,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			if m.currentPage == detailView {
 				m.currentPage = homeView
 				return m, nil
-			}
-		case "enter":
-			if m.currentPage == homeView {
+			} else if m.currentPage == homeView {
 				if topic := m.homePage.GetSelectedTopic(); topic != nil {
 					m.currentPage = detailView
 					return m, m.detailPage.LoadTopic(*topic)
@@ -63,6 +61,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 	case tea.MouseMsg:
 		switch msg.Type {
+		//左键前进
 		case tea.MouseLeft:
 			if m.currentPage == homeView {
 				if topic := m.homePage.GetSelectedTopic(); topic != nil {
@@ -70,6 +69,12 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 					return m, m.detailPage.LoadTopic(*topic)
 				}
 			}
+			//右键返回
+		case tea.MouseRight:
+			if m.currentPage == detailView {
+				m.currentPage = homeView
+			}
+
 		}
 	}
 
